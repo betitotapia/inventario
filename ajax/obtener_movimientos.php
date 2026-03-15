@@ -1,0 +1,198 @@
+<?php 
+require_once $_SERVER['DOCUMENT_ROOT'] . '/inventario/auth.php'; // Protección de autenticación
+require_once $_SERVER['DOCUMENT_ROOT'] . '/inventario/db.php';
+$user_id = $_SESSION['user_id'];
+$tipo = $_GET['tipo'] ?? 'resumen';
+
+$usuario_almacen = $pdo->query("SELECT almacen, is_admin FROM usuarios WHERE id_usuario = ".$user_id."")->fetch(PDO::FETCH_ASSOC);
+$id_almacen_usuario=$usuario_almacen['almacen'];
+$is_admin=$usuario_almacen['is_admin'];
+
+if ($tipo === 'resumen') {
+    $datos=$pdo->query('SELECT m.id_movimiento, m.id_producto, m.cantidad, m.tipo_movimiento, m.id_usuario,m.date_created, m.campo_actualizado,m.cantidad_anterior,m.folio,
+p.id, p.codigo, p.referencia, p.lote, p.caducidad, p.cantidad AS existencia, p.almacen, p.ubicacion, p.ultima_modificacion
+FROM movimientos m INNER JOIN productos p ON m.id_producto= p.id  order by m.date_created DESC LIMIT 500')->fetchAll(PDO::FETCH_ASSOC); 
+
+echo "
+<table id='tabla' class='table table-striped table-bordered' >
+          <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Referencia</th>
+                    <th>Lote</th>
+                    <th>Caducidad</th>
+                    <th>Tipo Movimiento</th>
+                    <th>Cantidad Actual</th>
+                    <th>Cantidad Anterior</th>
+                    <th>Almacen</th>
+                    <th>Campo Editado</th>
+                    <th>Ubicacion</th>
+                    <th>Folio</th>
+                    <th>Fecha</th>
+                    <th>Usuario</th>
+                  
+                </tr>
+          </thead>
+          <tbody>";
+          
+         foreach ($datos as $dato) { 
+            switch ($dato['tipo_movimiento']) {
+                case '1':
+                    $tipo_mov = 'Entrada';
+                    $color = 'green';
+                    break;
+                case '2':
+                    $tipo_mov = 'Salida';
+                    $color = 'red';
+                    break;
+                case '3':
+                    $tipo_mov = 'Ajuste de entrada';
+                    $color = 'blue';
+                    break;
+                case '4':
+                    $tipo_mov = 'Ajuste de salida';
+                    $color = '#d800d4';
+                    break;
+                case '5':
+                    $tipo_mov = 'Entrada por vale de prestamo';
+                    $color = '#d89a00';
+                    break;
+                case '6':
+                    $tipo_mov = 'Salida por vale de prestamo';
+                    $color = '#00d8d1';
+                    break;
+                case '8':
+                    $tipo_mov = 'Ajuste directo';
+                    $color = '#06e2b6ff';
+                    break;
+                default:
+                    $tipo_mov = 'Sin movimiento';
+                    $color = 'black';
+                    break;
+            }
+           $cantidad_anterior= $dato['cantidad_anterior'] ? $dato['cantidad_anterior'] : "";
+            $campo_actualizado = $dato['campo_actualizado'] ? $dato['campo_actualizado'] : "";
+            echo "
+            <tr>
+                <td>{$dato['codigo']}</td>
+                <td>{$dato['referencia']}</td>
+                <td>{$dato['lote']}</td>
+                <td>{$dato['caducidad']}</td>
+                <td style='background-color: {$color}; color:white;'>{$tipo_mov}</td>
+                <td>{$dato['cantidad']}</td>
+                <td>{$cantidad_anterior }</td>
+                <td>{$dato['almacen']}</td>
+                <td>{$campo_actualizado}</td>
+                <td>{$dato['ubicacion']}</td>
+                <td>{$dato['folio']}</td>
+                <td>{$dato['date_created']}</td>
+                <td>";
+                $datos_usuario = $pdo->query("SELECT nombre FROM usuarios WHERE id_usuario = " . $dato['id_usuario'])->fetch(PDO::FETCH_ASSOC);
+                echo $datos_usuario['nombre'];
+            echo "</td>
+               
+            </tr>";
+         }
+         
+        echo "
+          </tbody>
+             </table>
+        <script>
+                var tabla = document.querySelector('#tabla');
+                var dataTable = new DataTable(tabla);
+        </script>";
+} elseif ($tipo === 'todo') {
+
+     $datos=$pdo->query('SELECT m.id_movimiento, m.id_producto, m.cantidad, m.tipo_movimiento, m.id_usuario,m.date_created,
+     m.campo_actualizado,m.cantidad_anterior,m.folio,p.id, p.codigo, p.referencia, p.lote, p.caducidad, p.cantidad AS existencia, p.almacen, p.ubicacion, p.ultima_modificacion
+FROM movimientos m INNER JOIN productos p ON m.id_producto= p.id  order by m.date_created DESC LIMIT 13500 ')->fetchAll(PDO::FETCH_ASSOC);
+
+    echo "<table id='tabla2' class='table table-striped table-bordered' >
+          <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Referencia</th>
+                    <th>Lote</th>
+                    <th>Caducidad</th>
+                    <th>Tipo Movimiento</th>
+                    <th>Cantidad Actual</th>
+                    <th>Cantidad Anterior</th>
+                    <th>Almacen</th>
+                    <th>Campo Editado</th>
+                    <th>Ubicacion</th>
+                    <th>Folio</th>
+                    <th>Fecha</th>
+                    <th>Usuario</th>
+                  
+                </tr>
+          </thead>
+          <tbody>";
+
+         foreach ($datos as $dato) {
+            switch ($dato['tipo_movimiento']) {
+                case '1':
+                    $tipo_mov = 'Entrada';
+                    $color = 'green';
+                    break;
+                case '2':
+                    $tipo_mov = 'Salida';
+                    $color = 'red';
+                    break;
+                case '3':
+                    $tipo_mov = 'Ajuste de entrada';
+                    $color = 'blue';
+                    break; 
+                case '4':
+                    $tipo_mov = 'Ajuste de salida';
+                    $color = '#d800d4';
+                    break;
+                case '5':
+                    $tipo_mov = 'Entrada por vale de prestamo';
+                    $color = '#d89a00';
+                    break;  
+                case '6':
+                    $tipo_mov = 'Salida por vale de prestamo';  
+                    $color = '#00d8d1';
+                    break;
+
+                case '8':
+                    $tipo_mov = 'Ajuste directo';
+                    $color = '#06e2b6ff';
+                    break;
+
+            }
+              $cantidad_anterior= $dato['cantidad_anterior'] ? $dato['cantidad_anterior'] : "";
+            $campo_actualizado = $dato['campo_actualizado'] ? $dato['campo_actualizado'] : "";
+            echo "
+            <tr>
+                <td>{$dato['codigo']}</td>
+                <td>{$dato['referencia']}</td>
+                <td>{$dato['lote']}</td>
+                <td>{$dato['caducidad']}</td>
+                <td style='background-color: {$color}; color:white;'>{$tipo_mov}</td>
+                <td>{$dato['cantidad']}</td>
+                <td>{$cantidad_anterior }</td>
+                <td>{$dato['almacen']}</td>
+                <td>{$campo_actualizado}</td>
+                <td>{$dato['ubicacion']}</td>
+                <td>{$dato['folio']}</td>
+                <td>{$dato['date_created']}</td>
+                <td>";
+                $datos_usuario = $pdo->query("SELECT nombre FROM usuarios WHERE id_usuario = " . $dato['id_usuario'])->fetch(PDO::FETCH_ASSOC);
+                echo $datos_usuario['nombre'];
+            echo "</td>
+               
+            </tr>";
+         }
+         
+        echo "
+          </tbody>
+             </table>
+        <script>
+                var tabla2 = document.querySelector('#tabla2');
+                var dataTable = new DataTable(tabla2);
+        </script>";
+} else {
+    echo json_encode(['error' => 'Tipo de datos no válido']);   
+}
+?>

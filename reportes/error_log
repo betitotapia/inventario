@@ -1,0 +1,12 @@
+[01-Jul-2025 18:30:26 America/Mexico_City] PHP Warning:  Undefined array key "id_almacen" in /home1/mimexiko/sumed-store.com/inventario/reportes/reporte_almacenes.php on line 8
+[01-Jul-2025 18:30:26 America/Mexico_City] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1 in /home1/mimexiko/sumed-store.com/inventario/reportes/reporte_almacenes.php:10
+Stack trace:
+#0 /home1/mimexiko/sumed-store.com/inventario/reportes/reporte_almacenes.php(10): PDO->query('SELECT * FROM p...')
+#1 {main}
+  thrown in /home1/mimexiko/sumed-store.com/inventario/reportes/reporte_almacenes.php on line 10
+[01-Jul-2025 18:32:02 America/Mexico_City] PHP Warning:  Undefined array key "id_almacen" in /home1/mimexiko/sumed-store.com/inventario/reportes/reporte_almacenes.php on line 8
+[01-Jul-2025 18:32:02 America/Mexico_City] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1 in /home1/mimexiko/sumed-store.com/inventario/reportes/reporte_almacenes.php:10
+Stack trace:
+#0 /home1/mimexiko/sumed-store.com/inventario/reportes/reporte_almacenes.php(10): PDO->query('SELECT * FROM p...')
+#1 {main}
+  thrown in /home1/mimexiko/sumed-store.com/inventario/reportes/reporte_almacenes.php on line 10

@@ -1,0 +1,88 @@
+/* Estilos generales */
+body {
+    padding-top: 60px;
+  }
+  
+  .alert {
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+    display: none;
+  }
+  
+  .alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+  }
+  
+  .alert-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+  }
+  
+  .alert-warning {
+    color: #856404;
+    background-color: #fff3cd;
+    border-color: #ffeeba;
+  }
+  
+  .alert-info {
+    color: #0c5460;
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+  }
+  
+  /* Estilos para DataTables */
+  .dataTable-wrapper {
+    width: 100%;
+  }
+  
+  .dataTable-top {
+    padding: 0.5rem 0;
+  }
+  
+  .dataTable-bottom {
+    padding: 0.5rem 0;
+  }
+  
+  .dataTable-input {
+    padding: 0.5rem;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+  }
+  
+  .dataTable-selector {
+    padding: 0.5rem;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+  }
+  
+  /* Estilos para botones de acción */
+  .btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    border-radius: 0.2rem;
+  }
+  
+  /* Ajustes para la tabla */
+  #tabla {
+    width: 100% !important;
+  }
+  
+  /* Estilos para el input de código */
+  #codigo {
+    font-size: 1.2rem;
+    padding: 0.75rem;
+  }
+  
+  /* Estilos para los botones de operación */
+  .btn-check:checked + label {
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+  }
+  .btn-check:checked + .btn-warning {
+    box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.5);
+}
